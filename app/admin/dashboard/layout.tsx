@@ -11,7 +11,7 @@ export default function AdminLayout({
       <header className="border-b border-[#1f1f1f] bg-[#121212]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <h1 className="text-lg font-serif text-[#e6c47a]">
-            Admin Dashboard
+            Dashboard
           </h1>
 
           <nav className="flex gap-6 text-sm">
