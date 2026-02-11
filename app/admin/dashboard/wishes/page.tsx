@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseClient } from "@/lib/supabaseClient";
 import VideoModal from "@/components/VideoModal";
 import {
   Star,
@@ -41,7 +41,7 @@ export default function AdminWishesPage() {
   }, []);
 
   async function fetchWishes() {
-    const { data } = await supabase
+    const { data } = await supabaseClient
       .from("wishes")
       .select("*")
       .order("created_at", { ascending: false });
@@ -50,7 +50,7 @@ export default function AdminWishesPage() {
   }
 
   async function approveWish(id: string) {
-    await supabase.from("wishes").update({ is_approved: true }).eq("id", id);
+    await supabaseClient.from("wishes").update({ is_approved: true }).eq("id", id);
 
     setWishes((prev) =>
       prev.map((w) => (w.id === id ? { ...w, is_approved: true } : w))
@@ -58,7 +58,7 @@ export default function AdminWishesPage() {
   }
 
   async function unapproveWish(id: string) {
-    await supabase
+    await supabaseClient
       .from("wishes")
       .update({ is_approved: false, is_featured: false })
       .eq("id", id);
@@ -73,7 +73,7 @@ export default function AdminWishesPage() {
   }
 
   async function toggleFeatured(id: string, current: boolean) {
-    await supabase
+    await supabaseClient
       .from("wishes")
       .update({ is_featured: !current })
       .eq("id", id);
@@ -88,7 +88,7 @@ export default function AdminWishesPage() {
   async function deleteWish() {
     if (!deleteId) return;
 
-    await supabase.from("wishes").delete().eq("id", deleteId);
+    await supabaseClient.from("wishes").delete().eq("id", deleteId);
     setWishes((prev) => prev.filter((w) => w.id !== deleteId));
     setDeleteId(null);
   }

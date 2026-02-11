@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '@/lib/supabaseClient'
+import { supabaseClient } from '@/lib/supabaseClient'
 
 export default function SubmitWishPage() {
   const [name, setName] = useState('')
@@ -56,7 +56,7 @@ export default function SubmitWishPage() {
 
       const videoUrl = await uploadVideo(videoFile)
 
-      const { error } = await supabase.from('wishes').insert({
+      const { error } = await supabaseClient.from('wishes').insert({
         name,
         message,
         video_url: videoUrl,
@@ -79,6 +79,10 @@ export default function SubmitWishPage() {
 
   return (
     <main className="min-h-screen bg-[#0f0f0f] px-4 py-20 text-gray-200">
+      {/* ambient glow / soft radial light */}
+      <div className="pointer-events-none absolute inset-0
+                      bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+
       <div className="mx-auto max-w-xl text-center">
         <h1 className="mb-4 text-4xl font-serif text-[#e6c47a]">
           Share Your Wish

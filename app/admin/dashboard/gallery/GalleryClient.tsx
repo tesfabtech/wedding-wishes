@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseClient } from "@/lib/supabaseClient";
 import { Star, Trash2, Upload, X } from "lucide-react";
 
 interface GalleryImage {
@@ -23,7 +23,7 @@ export default function GalleryClient() {
   }, []);
 
   async function fetchImages() {
-    const { data } = await supabase
+    const { data } = await supabaseClient
       .from("gallery_images")
       .select("*")
       .order("created_at", { ascending: false });
@@ -41,7 +41,7 @@ async function uploadImages(files: FileList) {
   setUploading(true);
   setProgress(0);
 
-  const session = await supabase.auth.getSession();
+  const session = await supabaseClient.auth.getSession();
   const accessToken = session.data.session?.access_token;
 
   if (!accessToken) {
@@ -69,11 +69,11 @@ async function uploadImages(files: FileList) {
 
       xhr.onload = async () => {
         if (xhr.status === 200) {
-          const { data } = supabase.storage
+          const { data } = supabaseClient.storage
             .from("gallery")
             .getPublicUrl(filePath);
 
-          await supabase.from("gallery_images").insert({
+          await supabaseClient.from("gallery_images").insert({
             image_url: data.publicUrl,
           });
 
@@ -116,7 +116,7 @@ async function uploadImages(files: FileList) {
 
 
   async function toggleFeatured(id: string, current: boolean) {
-    await supabase
+    await supabaseClient
       .from("gallery_images")
       .update({ is_featured: !current })
       .eq("id", id);
@@ -131,7 +131,7 @@ async function uploadImages(files: FileList) {
   async function deleteImage() {
     if (!deleteId) return;
 
-    await supabase.from("gallery_images").delete().eq("id", deleteId);
+    await supabaseClient.from("gallery_images").delete().eq("id", deleteId);
     setImages((prev) => prev.filter((img) => img.id !== deleteId));
     setDeleteId(null);
   }
