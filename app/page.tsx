@@ -173,6 +173,9 @@ export default function HomePage() {
 
      {/* OUR STORY */}
 <section className="relative py-32 px-6 text-center bg-[#0b0b0b] overflow-hidden">
+  {/* ambient glow */}
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+
   {/* ambient background glow */}
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(214,185,140,0.08),_transparent_55%)]" />
 
