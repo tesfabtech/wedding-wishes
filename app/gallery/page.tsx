@@ -107,7 +107,7 @@ export default function GalleryPage() {
   return (
     <main className="bg-[#0f0f0f] text-gray-200">
       {/* ambient glow */}
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
 
       <div className="mx-auto max-w-7xl px-6 py-24">
 

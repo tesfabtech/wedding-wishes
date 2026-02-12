@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -12,27 +13,40 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0b0b0b]/80 backdrop-blur-lg border-b border-white/5">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-xs tracking-[0.35em] uppercase text-[#C9A96A]"
-        >
-          Aman & Asegu
-        </Link>
+        {/* Logo */}
+<Link
+  href="/"
+  className="flex items-center gap-3 group"
+>
+  <Image
+  src="/logo.png"
+  alt="Aman & Asegu Logo"
+  width={40}
+  height={40}
+  className="object-contain drop-shadow-[0_0_6px_rgba(201,169,106,0.4)] cursor-pointer"
+/>
+
+
+  <span className="text-xs tracking-[0.35em] uppercase text-[#C9A96A] group-hover:text-[#E6D8B8] transition">
+    Aman & Asegu
+  </span>
+</Link>
+
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-[#B9B5AE]">
-          <Link href="/" className="hover:text-[#E6D8B8] transition">
+          <Link href="/" className="hover:text-[#E6D8B8] transition cursor-pointer">
             Home
           </Link>
-          <Link href="/gallery" className="hover:text-[#E6D8B8] transition">
+          <Link href="/gallery" className="hover:text-[#E6D8B8] transition cursor-pointer">
             Gallery
           </Link>
-          <Link href="/wishes" className="hover:text-[#E6D8B8] transition">
+          <Link href="/wishes" className="hover:text-[#E6D8B8] transition cursor-pointer">
             Wishes
           </Link>
           <Link
             href="/submit-wish"
-            className="ml-4 px-5 py-2 rounded-xl bg-[#C9A96A] text-[#0b0b0b] hover:bg-[#E6D8B8] transition"
+            className="ml-4 px-5 py-2 rounded-xl bg-[#C9A96A] text-[#0b0b0b] hover:bg-[#E6D8B8] transition cursor-pointer"
           >
             Submit a Wish
           </Link>

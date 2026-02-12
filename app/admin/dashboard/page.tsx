@@ -20,37 +20,43 @@ export default async function AdminDashboard() {
 
   if (!admin) redirect("/");
 
-  /* 📊 STATS */
-  const [{ count: totalWishes }, { count: pendingWishes }, { count: featuredWishes }, { count: galleryImages }] =
-    await Promise.all([
-      supabase.from("wishes").select("*", { count: "exact", head: true }),
-      supabase
-        .from("wishes")
-        .select("*", { count: "exact", head: true })
-        .eq("is_approved", false),
-      supabase
-        .from("wishes")
-        .select("*", { count: "exact", head: true })
-        .eq("is_featured", true),
-      supabase
-        .from("gallery_images")
-        .select("*", { count: "exact", head: true }),
-    ]);
+  const [
+    { count: totalWishes },
+    { count: pendingWishes },
+    { count: featuredWishes },
+    { count: galleryImages },
+  ] = await Promise.all([
+    supabase.from("wishes").select("*", { count: "exact", head: true }),
+    supabase
+      .from("wishes")
+      .select("*", { count: "exact", head: true })
+      .eq("is_approved", false),
+    supabase
+      .from("wishes")
+      .select("*", { count: "exact", head: true })
+      .eq("is_featured", true),
+    supabase
+      .from("gallery_images")
+      .select("*", { count: "exact", head: true }),
+  ]);
 
   return (
-    <div className="p-8 space-y-10">
+    <div className=" p-6 md:p-10 space-y-12 over ">
+      {/* ambient glow */}
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
+
       {/* HEADER */}
-      <div>
-        <h2 className="text-3xl font-semibold mb-2">
+      <div className="relative">
+        <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
           Welcome back 👋
         </h2>
-        <p className="text-sm text-gray-400">
+        <p className="text-gray-400 max-w-xl">
           Here’s what’s happening with your wedding website today.
         </p>
       </div>
 
       {/* 📊 STATS GRID */}
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="relative grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-4">
         <StatCard
           label="Total Wishes"
           value={totalWishes ?? 0}
@@ -74,54 +80,34 @@ export default async function AdminDashboard() {
       </div>
 
       {/* 🔗 MAIN ACTIONS */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* WISHES */}
-        <Link
+      <div className="relative grid gap-6 md:grid-cols-2">
+        <DashboardCard
+          title="Manage Wishes"
+          description="Review, approve, feature, or remove guest wishes."
           href="/admin/dashboard/wishes"
-          className="group rounded-2xl bg-linear-to-br from-[#1b1b1b] to-[#121212]
-                     border border-[#2a2a2a] p-6 shadow-xl
-                     hover:border-[#e6c78b]/40 transition"
-        >
-          <h3 className="text-xl font-medium text-[#e6c78b] mb-2">
-            Manage Wishes
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Review, approve, feature, or remove guest wishes.
-          </p>
-          <span className="text-sm text-[#e6c78b] group-hover:text-white transition">
-            Go to wishes →
-          </span>
-        </Link>
+        />
 
-        {/* GALLERY */}
-        <Link
+        <DashboardCard
+          title="Manage Gallery"
+          description="Upload, feature, or remove wedding gallery images."
           href="/admin/dashboard/gallery"
-          className="group rounded-2xl bg-linear-to-br from-[#1b1b1b] to-[#121212]
-                     border border-[#2a2a2a] p-6 shadow-xl
-                     hover:border-[#e6c78b]/40 transition"
-        >
-          <h3 className="text-xl font-medium text-[#e6c78b] mb-2">
-            Manage Gallery
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Upload, feature, or remove wedding gallery images.
-          </p>
-          <span className="text-sm text-[#e6c78b] group-hover:text-white transition">
-            Go to gallery →
-          </span>
-        </Link>
+        />
       </div>
 
-      {/* 💡 OPTIONAL TIP */}
-      <div className="rounded-xl bg-[#161616] border border-[#2a2a2a] p-6 text-sm text-gray-400">
-        💡 Tip: Featured wishes and images are highlighted on the public site —
-        keep them fresh for the best experience.
+      {/* 💡 TIP */}
+      <div className="relative rounded-2xl bg-[#161616]/80 backdrop-blur-xl border border-white/10 p-6 text-sm text-gray-400 shadow-lg">
+        💡 <span className="text-[#D6B98C] font-medium">Pro Tip:</span>{" "}
+        Featured wishes and images are highlighted on the public site — keep
+        them fresh for the best experience.
       </div>
     </div>
   );
 }
 
+/* ========================= */
 /* 🧱 STAT CARD COMPONENT */
+/* ========================= */
+
 function StatCard({
   label,
   value,
@@ -132,14 +118,67 @@ function StatCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl bg-[#161616] border border-[#2a2a2a] p-5 shadow">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-gray-400">{label}</span>
-        <span className="text-[#e6c78b]">{icon}</span>
+    <div className="group relative rounded-3xl bg-linear-to-br from-[#1b1b1b] to-[#121212]
+                    border border-white/10 p-6 shadow-xl
+                    hover:border-[#D6B98C]/40 transition-all duration-300">
+      
+      {/* subtle glow on hover */}
+      <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 
+                      bg-linear-to-br from-[#D6B98C]/5 to-transparent transition" />
+
+      <div className="relative flex items-center justify-between mb-4">
+        <span className="text-sm text-gray-400 tracking-wide">
+          {label}
+        </span>
+        <span className="text-[#D6B98C] group-hover:scale-110 transition-transform">
+          {icon}
+        </span>
       </div>
-      <p className="text-3xl font-semibold text-white">
+
+      <p className="relative text-4xl font-semibold text-white tracking-tight">
         {value}
       </p>
     </div>
+  );
+}
+
+/* ========================= */
+/* 🪄 DASHBOARD ACTION CARD */
+/* ========================= */
+
+function DashboardCard({
+  title,
+  description,
+  href,
+}: {
+  title: string;
+  description: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group relative rounded-3xl bg-linear-to-br from-[#1b1b1b] to-[#121212]
+                 border border-white/10 p-8 shadow-xl
+                 hover:border-[#D6B98C]/40 transition-all duration-300 overflow-hidden"
+    >
+      {/* Hover glow */}
+      <div className="absolute inset-0 bg-linear-to-r from-[#D6B98C]/5 via-transparent to-transparent 
+                      opacity-0 group-hover:opacity-100 transition duration-500" />
+
+      <div className="relative">
+        <h3 className="text-xl md:text-2xl font-serif text-[#D6B98C] mb-3">
+          {title}
+        </h3>
+
+        <p className="text-sm text-gray-400 mb-6">
+          {description}
+        </p>
+
+        <span className="text-sm text-[#D6B98C] group-hover:text-white transition">
+          Open section →
+        </span>
+      </div>
+    </Link>
   );
 }

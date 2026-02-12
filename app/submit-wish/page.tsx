@@ -123,7 +123,7 @@ export default function SubmitWishPage() {
   return (
     <main className="min-h-screen bg-[#0f0f0f] px-4 py-20 text-gray-200">
       <div className="pointer-events-none absolute inset-0
-                      bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+                      bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
 
       <div className="mx-auto max-w-xl text-center">
         <h1 className="mb-4 text-4xl font-serif text-[#e6c47a]">

@@ -17,7 +17,7 @@ export default async function WishesPage() {
     <main className="relative min-h-screen bg-[#0f0f0f] text-gray-200 px-6 py-24 overflow-hidden">
       {/* ambient glow / soft radial light */}
       <div className="pointer-events-none absolute inset-0
-                      bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+                      bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
 
       <div className="mx-auto max-w-3xl relative z-10">
         {/* HEADER */}
@@ -40,7 +40,7 @@ export default async function WishesPage() {
         {/* CTA */}
         <div className="mt-20 text-center relative z-10">
           <div
-            className="mb-6 h-px w-full bg-gradient-to-r
+            className="mb-6 h-px w-full bg-linear-to-r
                        from-transparent via-[#2a2a2a] to-transparent"
           />
           <p className="text-sm text-gray-400 mb-6">

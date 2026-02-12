@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabaseClient";
-import { Star, Trash2, Upload, X } from "lucide-react";
+import { Star, Trash2, Upload, X, Download } from "lucide-react";
 
 interface GalleryImage {
   id: string;
@@ -11,12 +11,32 @@ interface GalleryImage {
   created_at: string;
 }
 
+/* ---------------- DOWNLOAD HANDLER ---------------- */
+async function downloadImage(url: string) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+
+  const blobUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = blobUrl;
+  link.download = url.split("/").pop() || "image.jpg";
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(blobUrl);
+}
+
 export default function GalleryClient() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+
 
   useEffect(() => {
     fetchImages();
@@ -136,28 +156,57 @@ async function uploadImages(files: FileList) {
     setDeleteId(null);
   }
 
+
+   // STATS
+  const totalImages = images.length;
+  const featuredImages = images.filter((img) => img.is_featured).length;
+  
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-serif text-[#e6c78b] mb-8">
-        Gallery
-      </h1>
+        {/* ambient glow */}
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(214,185,140,0.08),transparent_55%)]" />
 
-      {/* UPLOAD */}
-      <label className="inline-flex items-center gap-2 mb-4 cursor-pointer
-                        text-[#e6c78b] hover:text-white transition">
-        <Upload size={18} />
-        Upload Images (max 20 at a time)
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          hidden
-          disabled={uploading}
-          onChange={(e) => {
-            if (e.target.files) uploadImages(e.target.files);
-          }}
-        />
-      </label>
+      <div className="mb-10 space-y-2">
+          <h1 className="text-4xl sm:text-5xl font-serif bg-linear-to-r from-[#e6c78b] via-white to-[#e6c78b] bg-clip-text text-transparent tracking-tight">
+            Gallery
+          </h1>
+          <p className="text-neutral-400 mt-2 text-sm">
+            Manage wedding gallery images. <br /> <br />Total: <strong>{totalImages}</strong> | Featured: <strong>{featuredImages}</strong>
+          </p>
+        </div>
+
+      <div className="flex items-center gap-4 mb-4">
+  {/* Upload Button */}
+  <label className="inline-flex items-center gap-2 cursor-pointer
+                    text-[#e6c78b] hover:text-white transition">
+    <span className="flex items-center gap-2 rounded-sm bg-[#C9A96A] text-xs px-1 py-1 text-[#0b0b0b] hover:bg-[#E6D8B8] hover:scale-105 transition">
+      <Upload size={18} />
+      Upload Images
+    </span>
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      hidden
+      disabled={uploading}
+      onChange={(e) => e.target.files && uploadImages(e.target.files)}
+    />
+  </label>
+
+  {/* Featured Filter Button */}
+  <button
+    onClick={() => setShowFeaturedOnly((prev) => !prev)}
+    className={`flex items-center justify-center rounded-sm px-1 py-1  text-xs border border-[#2a2a2a]
+                transition hover:bg-[#e6c78b]/20 cursor-pointer ${
+                  showFeaturedOnly ? "bg-[#e6c78b]/30 text-[#0b0b0b]" : "text-[#e6c78b]"
+                }`}
+  >
+    <Star size={18} className="mr-1" />
+    Featured
+  </button>
+</div>
+
 
       {/* PROGRESS */}
       {uploading && (
@@ -177,7 +226,9 @@ async function uploadImages(files: FileList) {
 
       {/* GRID */}
       <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-        {images.map((img) => (
+        {images
+        .filter((img) => (showFeaturedOnly ? img.is_featured : true))
+        .map((img) => (
           <div
             key={img.id}
             className="relative group rounded-2xl overflow-hidden
@@ -230,6 +281,15 @@ async function uploadImages(files: FileList) {
           >
             <X size={28} />
           </button>
+          {/* DOWNLOAD BUTTON */}
+                <button
+                  onClick={() => downloadImage(previewImage)}
+                  className="absolute top-6 left-6
+                             rounded-full bg-black/70 p-2
+                             text-white hover:bg-black transition"
+                >
+                  <Download size={20} />
+                </button>
 
           <img
             src={previewImage}

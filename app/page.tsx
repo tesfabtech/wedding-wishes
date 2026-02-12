@@ -135,7 +135,7 @@ export default function HomePage() {
     />
 
     {/* dark gradient mask at bottom */}
-    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0b0b0b] via-black/30 to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-t from-[#0b0b0b] via-black/30 to-transparent" />
   </motion.div>
 
   {/* semi-transparent overlay */}
@@ -157,7 +157,7 @@ export default function HomePage() {
     </h1>
 
     <p className="text-sm text-[#F3EAD7] max-w-xl mx-auto mb-12 drop-shadow-sm">
-      Two hearts united by love, beginning a journey of togetherness,
+      Two hearts united by God & love, beginning a journey of togetherness,
       commitment, and endless devotion.
     </p>
 
@@ -173,11 +173,8 @@ export default function HomePage() {
 
      {/* OUR STORY */}
 <section className="relative py-32 px-6 text-center bg-[#0b0b0b] overflow-hidden">
-  {/* ambient glow */}
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
-
   {/* ambient background glow */}
-  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(214,185,140,0.08),_transparent_55%)]" />
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(214,185,140,0.08),transparent_55%)]" />
 
   <div className="relative z-10">
     {/* subtitle */}
@@ -210,7 +207,7 @@ export default function HomePage() {
       className="max-w-xl mx-auto text-sm text-[#8E8A83] mb-14"
     >
       Some stories begin quietly, others with sparks. Ours unfolded with
-      destiny, patience, and a promise that felt eternal.
+      destiny, patience, and God's eternal help.
     </motion.p>
 
     {/* image */}
@@ -230,7 +227,7 @@ export default function HomePage() {
       />
 
       {/* gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/10 to-transparent" />
 
       {/* caption */}
       <motion.div
@@ -253,7 +250,7 @@ export default function HomePage() {
 {gallery.length > 0 && (
   <section className="relative py-28 px-6 bg-[#0b0b0b] overflow-hidden">
     {/* subtle background glow */}
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
 
     <div className="relative z-10">
       {/* heading */}
@@ -350,7 +347,7 @@ export default function HomePage() {
 {wishes.length > 0 && (
   <section className="relative py-28 px-6 bg-[#0b0b0b] overflow-hidden">
     {/* ambient glow */}
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(214,185,140,0.08),_transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(214,185,140,0.08),transparent_55%)]" />
 
     <div className="relative z-10">
       {/* heading */}
@@ -384,10 +381,10 @@ export default function HomePage() {
             viewport={{ once: true }}
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 120 }}
-            className="relative rounded-3xl bg-gradient-to-br from-[#161616] via-[#111111] to-[#0d0d0d] p-7 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+            className="relative rounded-3xl bg-linear-to-br from-[#161616] via-[#111111] to-[#0d0d0d] p-7 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
           >
             {/* gold accent line */}
-            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[#C9A96A]/60 to-transparent" />
+            <div className="absolute top-0 left-6 right-6 h-px bg-linear-to-r from-transparent via-[#C9A96A]/60 to-transparent" />
 
             {/* name */}
             <p className="font-medium text-sm tracking-wide text-[#E6D8B8] mb-3">
