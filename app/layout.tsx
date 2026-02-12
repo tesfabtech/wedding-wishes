@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yourdomain.com"),
+  metadataBase: new URL("https://wedding-wishes-aman.vercel.app/"),
 
   title: {
     default: "Aman & Asegu Wedding | Share Your Wishes",
@@ -43,11 +43,11 @@ export const metadata: Metadata = {
     title: "Aman & Asegu Wedding | Share Your Wishes",
     description:
       "Celebrate Aman & Asegu’s special day. View their journey and leave your heartfelt wedding message.",
-    url: "https://yourdomain.com",
+    url: "https://wedding-wishes-aman.vercel.app/",
     siteName: "Aman & Asegu Wedding",
     images: [
       {
-        url: "/og-image.png", // create this
+        url: "/og-image.jpg", // create this
         width: 1200,
         height: 630,
         alt: "Aman & Asegu Wedding",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title: "Aman & Asegu Wedding | Share Your Wishes",
     description:
       "Leave your heartfelt wedding wishes for Aman & Asegu and celebrate their special day.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
 
   icons: {

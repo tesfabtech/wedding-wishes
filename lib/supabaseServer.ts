@@ -1,8 +1,9 @@
+// lib/supabaseServer.ts
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { cookies as nextCookies } from "next/headers";
 
 export async function supabaseServer() {
-  const cookieStore = await cookies();
+  const cookieStore = await nextCookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,8 +13,10 @@ export async function supabaseServer() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll() {
-          // ❌ Do nothing — Server Components cannot set cookies
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
         },
       },
     }
