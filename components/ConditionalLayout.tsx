@@ -25,7 +25,7 @@ export default function ConditionalLayout({
       </main>
 
       {!hideLayout && (
-        <footer className="relative mt-32 bg-[#0b0b0b] border-t border-[#C9A96A]/20 overflow-hidden">
+        <footer className="relative bg-[#0b0b0b] border-t border-[#C9A96A]/20 overflow-hidden">
   {/* Subtle radial glow */}
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(201,169,106,0.08),transparent_70%)]" />
 
@@ -47,7 +47,7 @@ export default function ConditionalLayout({
     <div className="flex justify-center">
       <Image
         src="/logo.png"
-        alt="Aman & Asegu Logo"
+        alt="Aman & Asegu"
         width={110}
         height={110}
         className="object-contain drop-shadow-[0_0_12px_rgba(201,169,106,0.6)] transition duration-500 hover:scale-105"
