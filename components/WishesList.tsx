@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Play, X, Search } from "lucide-react";
+import { Play, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import VideoModal from "@/components/VideoModal";
 
 interface Wish {
   id: string;
@@ -14,7 +15,11 @@ interface Wish {
 const ITEMS_PER_LOAD = 6;
 
 export default function WishesList({ wishes }: { wishes: Wish[] }) {
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeVideo, setActiveVideo] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
+
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
 
@@ -64,7 +69,10 @@ export default function WishesList({ wishes }: { wishes: Wish[] }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              whileHover={{ scale: 1.02, boxShadow: "0 15px 30px rgba(184,155,94,0.2)" }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 15px 30px rgba(184,155,94,0.2)",
+              }}
               transition={{ duration: 0.5 }}
               className="rounded-2xl border border-[#1f1f1f]
                          bg-[#141414] px-6 py-6 shadow-sm hover:shadow-lg"
@@ -79,7 +87,12 @@ export default function WishesList({ wishes }: { wishes: Wish[] }) {
 
               {wish.video_url && (
                 <button
-                  onClick={() => setActiveVideo(wish.video_url!)}
+                  onClick={() =>
+                    setActiveVideo({
+                      url: wish.video_url!,
+                      name: wish.name || "Anonymous",
+                    })
+                  }
                   className="group flex w-full items-center gap-3
                              rounded-lg bg-[#1b1b1b] px-4 py-3
                              text-xs tracking-wide text-[#b89b5e]
@@ -117,44 +130,14 @@ export default function WishesList({ wishes }: { wishes: Wish[] }) {
         </div>
       )}
 
-      {/* VIDEO MODAL */}
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div
-            key="video-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80
-                        flex items-center justify-center px-4"
-          >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="relative w-full max-w-3xl"
-            >
-              <button
-                onClick={() => setActiveVideo(null)}
-                className="absolute -top-12 right-0
-                           text-gray-300 hover:text-white transition"
-              >
-                <X size={28} />
-              </button>
-
-              <div className="rounded-2xl overflow-hidden bg-black shadow-xl">
-                <video
-                  src={activeVideo}
-                  controls
-                  autoPlay
-                  className="w-full h-auto"
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* REUSABLE VIDEO MODAL */}
+      {activeVideo && (
+        <VideoModal
+          videoUrl={activeVideo.url}
+          name={activeVideo.name}
+          onClose={() => setActiveVideo(null)}
+        />
+      )}
     </>
   );
 }

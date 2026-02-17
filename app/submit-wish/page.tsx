@@ -34,8 +34,8 @@ export default function SubmitWishPage() {
 
     const duration = await getVideoDuration(file)
 
-    if (duration < 15 || duration > 60) {
-      throw new Error('Video must be between 15 and 60 seconds')
+    if (duration < 5 || duration > 60) {
+      throw new Error('Video must be between 5 and 60 seconds')
     }
 
     const formData = new FormData()
@@ -131,7 +131,7 @@ export default function SubmitWishPage() {
         </h1>
 
         <p className="mb-10 text-sm text-gray-400">
-          Leave a heartfelt message or record a short video (15–60 seconds)
+          Leave a heartfelt message or record a short video (5–60 seconds)
         </p>
 
         {success ? (
@@ -193,7 +193,7 @@ export default function SubmitWishPage() {
                 className="text-sm text-gray-400 file:mr-4 file:rounded-md file:border-0 file:bg-[#e6c47a] file:px-4 file:py-2 file:text-sm file:font-medium file:text-[#1a1a1a] hover:file:bg-[#c9a24d] rounded-md border border-[#2a2a2a] cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#e6c47a]"
               />
               <p className="mt-1 text-xs text-gray-500">
-                Max 150MB • 15–60 seconds
+                Max 150MB • 5–60 seconds
               </p>
 
               {loading && uploadProgress > 0 && (
@@ -208,7 +208,7 @@ export default function SubmitWishPage() {
               disabled={loading}
               className="w-full rounded-md bg-linear-to-r from-[#e6c47a] to-[#c9a24d] py-3 font-medium text-[#1a1a1a] hover:opacity-90 disabled:opacity-50"
             >
-              {loading ? 'Sending...it may take a few minutes based on video file size' : 'Send Your Wish'}
+              {loading ? 'Sending...it may take a few minutes' : 'Send Your Wish'}
             </button>
           </form>
         )}

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import VideoModal from "@/components/VideoModal";
 
 interface GalleryImage {
   id: string;
@@ -52,35 +53,7 @@ function ImageModal({ src, onClose }: { src: string; onClose: () => void }) {
   );
 }
 
-function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center px-4"
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-white hover:rotate-90 transition"
-        >
-          <X size={28} />
-        </button>
 
-        <motion.video
-          src={src}
-          controls
-          autoPlay
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0.9 }}
-          className="max-h-[90vh] rounded-2xl shadow-2xl"
-        />
-      </motion.div>
-    </AnimatePresence>
-  );
-}
 
 /* ---------------------------------- */
 /* PAGE */
@@ -89,7 +62,11 @@ export default function HomePage() {
   const [gallery, setGallery] = useState<GalleryImage[]>([]);
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeVideo, setActiveVideo] = useState<{
+  url: string;
+  name: string;
+} | null>(null);
+
 
   useEffect(() => {
     fetchData();
@@ -399,7 +376,13 @@ export default function HomePage() {
             {/* video */}
             {wish.video_url && (
               <button
-                onClick={() => setActiveVideo(wish.video_url)}
+                onClick={() =>
+  setActiveVideo({
+    url: wish.video_url!,
+    name: wish.name || "Anonymous",
+  })
+}
+
                 className="inline-flex items-center gap-2 text-xs tracking-wide text-[#C9A96A] hover:text-[#E6D8B8] transition"
               >
                 <Play size={14} />
@@ -409,6 +392,8 @@ export default function HomePage() {
           </motion.div>
         ))}
       </div>
+
+
 
       {/* view all */}
       <motion.div
@@ -438,8 +423,13 @@ export default function HomePage() {
         <ImageModal src={activeImage} onClose={() => setActiveImage(null)} />
       )}
       {activeVideo && (
-        <VideoModal src={activeVideo} onClose={() => setActiveVideo(null)} />
-      )}
+  <VideoModal
+    videoUrl={activeVideo.url}
+    name={activeVideo.name}
+    onClose={() => setActiveVideo(null)}
+  />
+)}
+
     </main>
   );
 }
